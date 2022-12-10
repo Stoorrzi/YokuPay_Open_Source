@@ -265,7 +265,7 @@ async function purchaseJPG() {
         });
         var config = {
           method: "post",
-          url: `http://23.88.50.29:4788/cardanoNode/buyNFT`,
+          url: `https://cardano.yokupass.com/cardanoNode/buyNFT`,
           headers: {
             Authorization: process.env.REACT_APP_BEAR,
             "Content-Type": "application/x-www-form-urlencoded",
