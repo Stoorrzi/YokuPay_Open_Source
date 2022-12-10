@@ -1,8 +1,8 @@
-// const jpg_checkWallet = require("./src/function/jpg_checkWallet").checkWallet;
+const jpg_checkWallet = require("./src/function/jpg_checkWallet").checkWallet;
 const opentheta_checkWallet =
   require("./src/function/openTheta_checkWallet").checkWallet;
-const algorand_checkWallet =
-  require("./src/function/algorand_checkWallet").algorand_checkWallet;
+// const algorand_checkWallet =
+//   require("./src/function/algorand_checkWallet").algorand_checkWallet;
 
 const express = require("express");
 const cors = require("cors");
