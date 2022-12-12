@@ -11,94 +11,94 @@ describe("GET /service/online", () => {
   });
 });
 
-describe("POST /payment/opentheta/checkwallet", () => {
-  describe("given a user and transaction hash", () => {
-    test("should respond with a 200 status code", async () => {
-      const response = await request(app)
-        .post("/payment/opentheta/checkwallet")
-        .send({
-          id: 0,
-          data: {
-            user: "f22b54d37fd15fbcc716da7925c6cb39a0deab5d",
-            txh: "0xf8526117ef28db377b3d4a6407983f77f52dac82529d7a7243b5a52b097eb95d",
-          },
-        });
-      expect(response.statusCode).toBe(200);
-    });
+// describe("POST /payment/opentheta/checkwallet", () => {
+//   describe("given a user and transaction hash", () => {
+//     test("should respond with a 200 status code", async () => {
+//       const response = await request(app)
+//         .post("/payment/opentheta/checkwallet")
+//         .send({
+//           id: 0,
+//           data: {
+//             user: "f22b54d37fd15fbcc716da7925c6cb39a0deab5d",
+//             txh: "0xf8526117ef28db377b3d4a6407983f77f52dac82529d7a7243b5a52b097eb95d",
+//           },
+//         });
+//       expect(response.statusCode).toBe(200);
+//     });
 
-    test("should specify json in the content type header", async () => {
-      const response = await request(app)
-        .post("/payment/opentheta/checkwallet")
-        .send({
-          txh: "username",
-          user: "password",
-        });
-      expect(response.headers["content-type"]).toEqual(
-        expect.stringContaining("json")
-      );
-    });
+//     test("should specify json in the content type header", async () => {
+//       const response = await request(app)
+//         .post("/payment/opentheta/checkwallet")
+//         .send({
+//           txh: "username",
+//           user: "password",
+//         });
+//       expect(response.headers["content-type"]).toEqual(
+//         expect.stringContaining("json")
+//       );
+//     });
 
-    test("should return user + 2 + exchange rate", async () => {
-      const response = await request(app)
-        .post("/payment/opentheta/checkwallet")
-        .send({
-          id: 0,
-          data: {
-            user: "f22b54d37fd15fbcc716da7925c6cb39a0deab5d",
-            txh: "0xf8526117ef28db377b3d4a6407983f77f52dac82529d7a7243b5a52b097eb95d",
-          },
-        });
-      const responseAscii = Web3.utils
-        .hexToAscii(response.body.data.result)
-        .slice(0, 43);
-      expect(responseAscii).toBe("0xf22b54d37fd15fbcc716da7925c6cb39a0deab5d2");
-    });
+//     test("should return user + 2 + exchange rate", async () => {
+//       const response = await request(app)
+//         .post("/payment/opentheta/checkwallet")
+//         .send({
+//           id: 0,
+//           data: {
+//             user: "f22b54d37fd15fbcc716da7925c6cb39a0deab5d",
+//             txh: "0xf8526117ef28db377b3d4a6407983f77f52dac82529d7a7243b5a52b097eb95d",
+//           },
+//         });
+//       const responseAscii = Web3.utils
+//         .hexToAscii(response.body.data.result)
+//         .slice(0, 43);
+//       expect(responseAscii).toBe("0xf22b54d37fd15fbcc716da7925c6cb39a0deab5d2");
+//     });
 
-    test("should return user + 1 + exchange rate", async () => {
-      const response = await request(app)
-        .post("/payment/opentheta/checkwallet")
-        .send({
-          id: 0,
-          data: {
-            user: "21ba299fd57f868ea9901252a6f671d8e688a71c",
-            txh: "0xf84ed1a04a8109fcb8978464bb3f1e555409a8cb73f3731d96c87e894d6b248f",
-          },
-        });
-      const responseAscii = Web3.utils
-        .hexToAscii(response.body.data.result)
-        .slice(0, 43);
-      expect(responseAscii).toBe("0x21ba299fd57f868ea9901252a6f671d8e688a71c1");
-    });
+//     test("should return user + 1 + exchange rate", async () => {
+//       const response = await request(app)
+//         .post("/payment/opentheta/checkwallet")
+//         .send({
+//           id: 0,
+//           data: {
+//             user: "21ba299fd57f868ea9901252a6f671d8e688a71c",
+//             txh: "0xf84ed1a04a8109fcb8978464bb3f1e555409a8cb73f3731d96c87e894d6b248f",
+//           },
+//         });
+//       const responseAscii = Web3.utils
+//         .hexToAscii(response.body.data.result)
+//         .slice(0, 43);
+//       expect(responseAscii).toBe("0x21ba299fd57f868ea9901252a6f671d8e688a71c1");
+//     });
 
-    test("should return user + 4 + exchange rate", async () => {
-      const response = await request(app)
-        .post("/payment/opentheta/checkwallet")
-        .send({
-          id: 0,
-          data: {
-            user: "7e1BBDDe3cB26F406800868f10105592d507bD07",
-            txh: "0xbf2249b35f3dfc0b9435b6d58a54ae661fd35af1ce63de98d6745d6abbc696df",
-          },
-        });
-      const responseAscii = Web3.utils
-        .hexToAscii(response.body.data.result)
-        .slice(0, 43);
-      expect(responseAscii).toBe("0x7e1BBDDe3cB26F406800868f10105592d507bD074");
-    });
-  });
+//     test("should return user + 4 + exchange rate", async () => {
+//       const response = await request(app)
+//         .post("/payment/opentheta/checkwallet")
+//         .send({
+//           id: 0,
+//           data: {
+//             user: "7e1BBDDe3cB26F406800868f10105592d507bD07",
+//             txh: "0xbf2249b35f3dfc0b9435b6d58a54ae661fd35af1ce63de98d6745d6abbc696df",
+//           },
+//         });
+//       const responseAscii = Web3.utils
+//         .hexToAscii(response.body.data.result)
+//         .slice(0, 43);
+//       expect(responseAscii).toBe("0x7e1BBDDe3cB26F406800868f10105592d507bD074");
+//     });
+//   });
 
-  describe("when the user and txh is missing", () => {
-    test("should respond with a status code of 400", async () => {
-      const bodyData = [{ txh: "username" }, { user: "password" }, {}];
-      for (const body of bodyData) {
-        const response = await request(app)
-          .post("/payment/opentheta/checkwallet")
-          .send(body);
-        expect(response.statusCode).toBe(400);
-      }
-    });
-  });
-});
+//   describe("when the user and txh is missing", () => {
+//     test("should respond with a status code of 400", async () => {
+//       const bodyData = [{ txh: "username" }, { user: "password" }, {}];
+//       for (const body of bodyData) {
+//         const response = await request(app)
+//           .post("/payment/opentheta/checkwallet")
+//           .send(body);
+//         expect(response.statusCode).toBe(400);
+//       }
+//     });
+//   });
+// });
 
 describe("POST /payment/jpg/checkwallet/1", () => {
   describe("given a user and transaction hash", () => {
@@ -109,7 +109,7 @@ describe("POST /payment/jpg/checkwallet/1", () => {
           id: 0,
           data: {
             user: "7e1BBDDe3cB26F406800868f10105592d507bD07",
-            txh: "0xf8526117ef28db377b3d4a6407983f77f52dac82529d7a7243b5a52b097eb95d",
+            txh: "0xa1680b56c7c9623e67f7c2f342a05df74b0b4c69a0283284195d1cc8207cf55d",
           },
         });
       expect(response.statusCode).toBe(200);
@@ -133,14 +133,14 @@ describe("POST /payment/jpg/checkwallet/1", () => {
         .send({
           id: 0,
           data: {
-            user: "f22b54d37fd15fbcc716da7925c6cb39a0deab5d",
-            txh: "0xf8526117ef28db377b3d4a6407983f77f52dac82529d7a7243b5a52b097eb95d",
+            user: "7e1BBDDe3cB26F406800868f10105592d507bD07",
+            txh: "0xa1680b56c7c9623e67f7c2f342a05df74b0b4c69a0283284195d1cc8207cf55d",
           },
         });
       const responseAscii = Web3.utils
         .hexToAscii(response.body.data.result)
         .slice(0, 43);
-      expect(responseAscii).toBe("0xf22b54d37fd15fbcc716da7925c6cb39a0deab5d2");
+      expect(responseAscii).toBe("0x7e1BBDDe3cB26F406800868f10105592d507bD072");
     });
 
     test("should return user + 1 + exchange rate", async () => {
@@ -149,14 +149,14 @@ describe("POST /payment/jpg/checkwallet/1", () => {
         .send({
           id: 0,
           data: {
-            user: "21ba299fd57f868ea9901252a6f671d8e688a71c",
-            txh: "0xf84ed1a04a8109fcb8978464bb3f1e555409a8cb73f3731d96c87e894d6b248f",
+            user: "7e1BBDDe3cB26F406800868f10105592d507bD07",
+            txh: "0xb260c8be87e282d6bd4a9924577261a1ca5fdc19f2fb475788303d9516481765",
           },
         });
       const responseAscii = Web3.utils
         .hexToAscii(response.body.data.result)
         .slice(0, 43);
-      expect(responseAscii).toBe("0x21ba299fd57f868ea9901252a6f671d8e688a71c1");
+      expect(responseAscii).toBe("0x7e1BBDDe3cB26F406800868f10105592d507bD071");
     });
 
     test("should return user + 4 + exchange rate", async () => {
@@ -166,7 +166,7 @@ describe("POST /payment/jpg/checkwallet/1", () => {
           id: 0,
           data: {
             user: "7e1BBDDe3cB26F406800868f10105592d507bD07",
-            txh: "0xbf2249b35f3dfc0b9435b6d58a54ae661fd35af1ce63de98d6745d6abbc696df",
+            txh: "0xb260c8be87e282d6bd4a9924577261a1ca5fdc19f2fb475788303d9516481766",
           },
         });
       const responseAscii = Web3.utils

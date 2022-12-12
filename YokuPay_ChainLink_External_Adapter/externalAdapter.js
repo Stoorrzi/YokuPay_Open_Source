@@ -19,7 +19,7 @@ app.use(cors());
 app.post("/payment/jpg/checkwallet/1", (req, res) => {
   jpg_checkWallet(req.body, (status, result) => {
     if (result) {
-      res.json(result);
+      res.status(status).json(result);
     }
   });
 });
@@ -28,7 +28,7 @@ app.post("/payment/jpg/checkwallet/1", (req, res) => {
 app.post("/payment/jpg/checkwallet/2", (req, res) => {
   jpg_checkWallet(req.body, (status, result) => {
     if (result) {
-      res.json(result);
+      res.status(status).json(result);
     }
   });
 });
@@ -37,7 +37,7 @@ app.post("/payment/jpg/checkwallet/2", (req, res) => {
 app.post("/payment/jpg/checkwallet/3", (req, res) => {
   jpg_checkWallet(req.body, (status, result) => {
     if (result) {
-      res.json(result);
+      res.status(status).json(result);
     }
   });
 });
@@ -46,7 +46,7 @@ app.post("/payment/jpg/checkwallet/3", (req, res) => {
 app.post("/payment/jpg/checkwallet/4", (req, res) => {
   jpg_checkWallet(req.body, (status, result) => {
     if (result) {
-      res.json(result);
+      res.status(status).json(result);
     }
   });
 });
@@ -55,7 +55,7 @@ app.post("/payment/jpg/checkwallet/4", (req, res) => {
 app.post("/payment/jpg/checkwallet/5", (req, res) => {
   jpg_checkWallet(req.body, (status, result) => {
     if (result) {
-      res.json(result);
+      res.status(status).json(result);
     }
   });
 });

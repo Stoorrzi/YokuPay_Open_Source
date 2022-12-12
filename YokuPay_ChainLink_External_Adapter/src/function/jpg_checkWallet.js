@@ -18,8 +18,8 @@ const checkWallet = async (input, callback) => {
     const cryptoResponse = await axios.get(
       `https://min-api.cryptocompare.com/data/price?fsym=ADA&tsyms=MATIC&api_key={1c4ac91e6cfe6b26fdb17cd046918a29aff4d7957c32f1c1df6109ad68ad2e1c}`
     );
-    console.log(cryptoResponse.data.ETH);
-    const adaMatic = toNumberString(cryptoResponse.data.ETH * 10 ** 18); // convert to wei
+    console.log(cryptoResponse.data.MATIC);
+    const adaMatic = toNumberString(cryptoResponse.data.MATIC * 10 ** 18); // convert to wei
 
     // Get the NFT data of the receipt NFT
     const nftData = await getNFTData(input.data.txh); 
