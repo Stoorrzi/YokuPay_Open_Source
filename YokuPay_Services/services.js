@@ -11,6 +11,7 @@ const Web3 = require("web3");
 const abi_metroNFT = require("./mintAssets/abi.json").abi;
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const jwt = require("jsonwebtoken");
+const FormData = require("form-data");
 
 var Tx = require("ethereumjs-tx");
 var pkBuff = new Buffer(privateKey, "hex");
@@ -123,7 +124,7 @@ expressApp.post("/yokupay/opentheta/receiptNFT", async (req, res) => {
         res.send(obj);
       };
 
-      // mint process      
+      // mint process
       main(
         {
           NFTcontract,
@@ -446,7 +447,7 @@ const connectWallet = async () => {
 
 const main = async (JSONobject, fun) => {
   console.log("NFT mint start");
-  // upload NFT data to IPFS 
+  // upload NFT data to IPFS
   try {
     let ipfsHash = "";
     ipfsHash = await pinJSONToIPFS(JSONobject);
@@ -527,20 +528,29 @@ const sendRawTransaction = (txData, fun) =>
 
 // upload JSON data to the IPFS
 const pinJSONToIPFS = async (JSONBody) => {
-  const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-  return axios
-    .post(url, JSONBody, {
+  var details = JSON.stringify(JSONBody);
+  const form = new FormData();
+  form.append("file", details);
+
+  axios
+    .post("https://ipfs.infura.io:5001/api/v0/add", form, {
+      params: {
+        pin: "false",
+      },
       headers: {
-        "Content-Type": `application/json; charset=utf-8`,
-        pinata_api_key: pinataApiKey,
-        pinata_secret_api_key: pinataSecretApiKey,
+        ...form.getHeaders(),
+        "Content-Type": "multipart/form-data",
+      },
+      auth: {
+        username: process.env.IPFS_INF_PID,
+        password: process.env.IPFS_INF_SEC,
       },
     })
-    .then(function (response) {
-      return response;
+    .then(function (res) {
+      return res.data.Hash;
     })
-    .catch(function (error) {
-      console.error(error);
+    .catch(function (err) {
+      return err;
     });
 };
 
