@@ -47,7 +47,6 @@ const checkWallet = async (input, callback) => {
     console.log(
       nftData.data.EthereumAddress === "0x" + input.data.user,
       nftData.contract === process.env.NFT_CONTRACT,
-      nftData.data.PolicyID !== undefined,
       nftData.data.AssetID !== undefined,
       nftData.data.CardanoAddress !== undefined,
       nftData.data.CardanoStakeAddress !== undefined,
@@ -57,7 +56,6 @@ const checkWallet = async (input, callback) => {
     if (
       nftData.data.EthereumAddress === "0x" + input.data.user &&
       nftData.contract === process.env.NFT_CONTRACT &&
-      nftData.data.PolicyID !== undefined &&
       nftData.data.AssetID !== undefined &&
       nftData.data.CardanoAddress !== undefined &&
       nftData.data.CardanoStakeAddress !== undefined &&
