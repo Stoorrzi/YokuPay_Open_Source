@@ -2,13 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const signerAddress = process.env.DB_SIGNER_ADRESS;
 const privateKey = process.env.DB_FUNNY;
-const pinataApiKey = process.env.PINLOL;
-const pinataSecretApiKey = process.env.PIKOPIKO;
 const expressApp = express();
 const port = 6600;
 const axios = require("axios");
 const Web3 = require("web3");
-const abi_metroNFT = require("./mintAssets/abi.json").abi;
+const abi_receiptNFT = require("./mintAssets/abi.json").abi;
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const jwt = require("jsonwebtoken");
 const FormData = require("form-data");
@@ -438,7 +436,7 @@ const connectWallet = async () => {
   web3 = new Web3(externalProvider);
 
   contract_721 = new web3.eth.Contract(
-    abi_metroNFT, // Contract ABI receipt NFT
+    abi_receiptNFT, // Contract ABI receipt NFT
     "0x4C86eC73d17c44D59905a914fDb2fdb72e5138DC" // Contract Address
   );
   console.log("✅ Wallet Connected");
@@ -451,7 +449,7 @@ const main = async (JSONobject, fun) => {
   try {
     let ipfsHash = "";
     ipfsHash = await pinJSONToIPFS(JSONobject);
-    console.log("✅ JSON data uploaded to IPFS");
+    console.log("✅ JSON data uploaded to IPFS ", ipfsHash);
 
     // create Transaction
     submitNFT(ipfsHash, fun)
@@ -471,7 +469,7 @@ const submitNFT = async (ipfsHash, fun) => {
   // let nonce = (await abi_metroNFT.methods.getNonce(signerAddress).call()) + 1;
   const nonce = await web3.eth.getTransactionCount(signerAddress, "pending");
   const functionAbi = await contract_721.methods
-    .safeMint(signerAddress, ipfsHash.data.IpfsHash)
+    .safeMint(signerAddress, ipfsHash)
     .encodeABI();
 
   var txData = {
@@ -532,7 +530,10 @@ const pinJSONToIPFS = async (JSONBody) => {
   const form = new FormData();
   form.append("file", details);
 
-  axios
+  function retrunResponse (data) {
+    return data
+  }
+  const IPFS = await axios
     .post("https://ipfs.infura.io:5001/api/v0/add", form, {
       params: {
         pin: "false",
@@ -546,12 +547,14 @@ const pinJSONToIPFS = async (JSONBody) => {
         password: process.env.IPFS_INF_SEC,
       },
     })
-    .then(function (res) {
-      return res.data.Hash;
-    })
     .catch(function (err) {
-      return err;
+      retrunResponse(err)
     });
+
+    if (IPFS) {
+      console.log(IPFS.data.Hash)
+      return ( IPFS.data.Hash )
+    }
 };
 
 // function to validate JSON Web Tokens
