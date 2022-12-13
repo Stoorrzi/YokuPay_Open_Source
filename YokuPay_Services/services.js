@@ -695,3 +695,10 @@ async function roundUp(numby) {
   roundedFee = Math.ceil(decimal);
   return roundedFee;
 }
+
+//curl --location --request POST 'https://service.yokupass.com/yokupay/fees' \
+// --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicGhpbGlwcFRlc3QiLCJyb2xlIjoiZGV2ZWxvcGVyIiwiaWF0IjoxNjU1ODA1NDA4fQ.XTrXCsEv50htbD37R4qFLDUeskgpuZh0WxwhJugAhe0' \
+// --header 'Content-Type: application/x-www-form-urlencoded' \
+// --data-urlencode 'price=5000000000000000000' \
+// --data-urlencode 'from=ADA' \
+// --data-urlencode 'to=MATIC'
