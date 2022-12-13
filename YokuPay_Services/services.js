@@ -256,6 +256,7 @@ expressApp.post("/yokupay/jpg/jwt", async (req, res) => {
     storeid: req.body.StoreID,
     orderid: req.body.OrderID,
     url: req.body.url,
+    currency: req.body.Curreny,
   };
 
   console.log(data);
@@ -530,8 +531,8 @@ const pinJSONToIPFS = async (JSONBody) => {
   const form = new FormData();
   form.append("file", details);
 
-  function retrunResponse (data) {
-    return data
+  function retrunResponse(data) {
+    return data;
   }
   const IPFS = await axios
     .post("https://ipfs.infura.io:5001/api/v0/add", form, {
@@ -548,13 +549,13 @@ const pinJSONToIPFS = async (JSONBody) => {
       },
     })
     .catch(function (err) {
-      retrunResponse(err)
+      retrunResponse(err);
     });
 
-    if (IPFS) {
-      console.log(IPFS.data.Hash)
-      return ( IPFS.data.Hash )
-    }
+  if (IPFS) {
+    console.log(IPFS.data.Hash);
+    return IPFS.data.Hash;
+  }
 };
 
 // function to validate JSON Web Tokens
