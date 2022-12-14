@@ -594,6 +594,7 @@ function checkToken(req) {
 
 // Fees calculations
 async function getFees(originalPrice, FromCryptoCurrency, ToCryptoCurrency) {
+  try {
   FromCryptoCurrency = FromCryptoCurrency.toUpperCase();
   ToCryptoCurrency = ToCryptoCurrency.toUpperCase();
   // Get Convertion
@@ -609,33 +610,37 @@ async function getFees(originalPrice, FromCryptoCurrency, ToCryptoCurrency) {
   const binanceFees = polygonValue * 0.021;
 
   // All Fees in Matic
-  const processingFeesMatic = await roundUp(totalGasPolygon + binanceFees);
-  const yokuFeeMatic = await roundUp(polygonValue / 100);
-  const collateralMatic = await roundUp(polygonValue / 50);
+  const processingFeesMatic = Number((await devide(Number(totalGasPolygon + binanceFees))).toFixed(5));
+  const yokuFeeMatic = Number((await devide(polygonValue / 100)).toFixed(5));
+  const collateralMatic = Number((await devide(polygonValue / 50)).toFixed(5));
 
-  //Total Price in Matic & Dollar
-  const totalPriceMatic = await roundUp(
-    polygonValue + processingFeesMatic + yokuFeeMatic + collateralMatic
-  );
-  const totalPriceUSD = (
-    await convertUSD(totalPriceMatic, ToCryptoCurrency)
-  ).toFixed(2);
+  //Total Price in To-Amount & Dollar & From-Amount
+  const totalPriceMatic = Number((await devide(
+    polygonValue + (processingFeesMatic * 10 ** 18) + (yokuFeeMatic * 10 ** 18) + (collateralMatic * 10 ** 18)
+  )).toFixed(5));
+  const _totalPriceMatic = (polygonValue + (processingFeesMatic * 10 ** 18) + (yokuFeeMatic * 10 ** 18) + (collateralMatic * 10 ** 18))
+  const totalPriceUSD = Number((await devide(
+    await convertUSD(_totalPriceMatic, ToCryptoCurrency)
+  )).toFixed(2));
+  const totalPriceFrom = Number((await devide(await convertCrypto(
+    _totalPriceMatic,
+    ToCryptoCurrency,
+    FromCryptoCurrency
+  ))).toFixed(5));
 
   //Fees in USD
-  const process_fee_dollar = (
+  const process_fee_dollar = Number((
     await convertUSD(processingFeesMatic, ToCryptoCurrency)
-  ).toFixed(2);
-  const yokupay_fee_dollar = (
+  ).toFixed(2));
+  const yokupay_fee_dollar = Number((
     await convertUSD(yokuFeeMatic, ToCryptoCurrency)
-  ).toFixed(2);
-  const collateral_fee_dollar = (
+  ).toFixed(2));
+  const collateral_fee_dollar = Number((
     await convertUSD(collateralMatic, ToCryptoCurrency)
-  ).toFixed(2);
+  ).toFixed(2));
 
   //Processing Fees in Percent
-  const percent = totalPriceMatic - polygonValue / (1 * 10 ** 18);
-  const percent1 = polygonValue / (1 * 10 ** 18) / 100;
-  const processFeesPercent = (percent / percent1).toFixed(2);
+  const processFeesPercent = Number((processingFeesMatic / (totalPriceMatic / 100)).toFixed(2));
 
   // From Price
   const price = originalPrice / (1 * 10 ** 18);
@@ -644,8 +649,9 @@ async function getFees(originalPrice, FromCryptoCurrency, ToCryptoCurrency) {
     data: {
       prices: {
         from_price: price,
-        to_price: totalPriceMatic,
-        usd_price: totalPriceUSD,
+        final_from_price: totalPriceFrom, 
+        final_to_price: totalPriceMatic,
+        final_usd_price: totalPriceUSD,
       },
       fees: {
         to_currency: {
@@ -667,6 +673,9 @@ async function getFees(originalPrice, FromCryptoCurrency, ToCryptoCurrency) {
     },
     status: 200,
   };
+} catch (error) {
+    return false
+}
 }
 
 async function convertCrypto(price, FromCryptoCurrency, ToCryptoCurrency) {
@@ -690,10 +699,9 @@ async function convertUSD(price, ToCryptoCurrency) {
   return maticPrice;
 }
 
-async function roundUp(numby) {
-  let decimal = numby / (1 * 10 ** 18);
-  roundedFee = Math.ceil(decimal);
-  return roundedFee;
+async function devide(_int) {
+  let decimal = _int / (1 * 10 ** 18);
+  return decimal;
 }
 
 //curl --location --request POST 'https://service.yokupass.com/yokupay/fees' \
