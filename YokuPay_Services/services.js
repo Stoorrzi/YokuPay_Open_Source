@@ -256,7 +256,7 @@ expressApp.post("/yokupay/jpg/jwt", async (req, res) => {
     storeid: req.body.StoreID,
     orderid: req.body.OrderID,
     url: req.body.url,
-    currency: req.body.Curreny,
+    currency: req.body.Currency,
   };
 
   console.log(data);
